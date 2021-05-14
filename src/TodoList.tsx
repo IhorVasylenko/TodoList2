@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from "react";
-import {FilterValuesType, TaskPropsType} from "./App";
+import {FilterValuesType, TaskPropsType} from "./AppWithReducers";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
@@ -12,12 +12,12 @@ export type TodoListPropsType = {
     tasks: TaskPropsType[]
     filter: FilterValuesType
     removeTask: (id: string, todoListId: string) => void
-    changeFilter: (value: FilterValuesType, todoListId: string) => void
+    changeFilter: (todoListId:  string, value: FilterValuesType) => void
     addTask: (value: string, todoListId: string) => void
     changeTaskStatus: (id: string, isDone: boolean, todoListId: string) => void
     removeTodoList: (id: string) => void
     changeTaskTitle: (taskId: string, title: string, todoListId: string) => void
-    changeTodoListTitle: (title: string, todoListId: string) => void
+    changeTodoListTitle: (todoListId: string, title: string) => void
 }
 
 export function TodoList(props: TodoListPropsType) {
@@ -45,11 +45,11 @@ export function TodoList(props: TodoListPropsType) {
 
     const addTask = (title: string) => props.addTask(title, props.todoListId)
     const removeTodoList = () => props.removeTodoList(props.todoListId)
-    const changeTodoListTitle = (newValue: string) => props.changeTodoListTitle(newValue, props.todoListId)
+    const changeTodoListTitle = (newValue: string) => props.changeTodoListTitle(props.todoListId, newValue)
 
-    const onAllClickHandler = () => props.changeFilter('all', props.todoListId)
-    const onActiveClickHandler = () => props.changeFilter('active', props.todoListId)
-    const onCompletedClickHandler = () => props.changeFilter('completed', props.todoListId)
+    const onAllClickHandler = () => props.changeFilter(props.todoListId, 'all')
+    const onActiveClickHandler = () => props.changeFilter(props.todoListId, 'active')
+    const onCompletedClickHandler = () => props.changeFilter(props.todoListId, 'completed')
 
 
     return (
