@@ -1,7 +1,6 @@
-import {TasksStateType} from "../AppWithReducers";
+import {TasksStateType} from "../AppWithRedux";
 import {v1} from "uuid";
-import {AddTodoListActionType, RemoveTodoListActionType} from "./todoListsReducer";
-
+import {AddTodoListActionType, RemoveTodoListActionType, todoListId1, todoListId2} from "./todoListsReducer";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK'
@@ -25,12 +24,22 @@ export type ChangeTaskTitleActionType = {
     newTitle: string
     todoListId: string
 }
+type ActionType = RemoveTaskActionType | AddTaskActionType | ChangeTaskTitleActionType
+    | ChangeTaskStatusActionType | AddTodoListActionType | RemoveTodoListActionType
 
-type ActionType = RemoveTaskActionType | AddTaskActionType
-    | ChangeTaskTitleActionType | ChangeTaskStatusActionType
-    | AddTodoListActionType | RemoveTodoListActionType
+const initialState: TasksStateType = {
+    [todoListId1]: [
+        {id: v1(), title: 'HTML', isDone: false},
+        {id: v1(), title: 'CSS', isDone: false},
+        {id: v1(), title: 'React', isDone: false}
+    ],
+    [todoListId2]: [
+        {id: v1(), title: 'Motorcycle', isDone: false},
+        {id: v1(), title: 'New car', isDone: false}
+    ]
+}
 
-export const tasksReducer = (state: TasksStateType, action: ActionType) => {
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
@@ -39,7 +48,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
             stateCopy[action.todoListId] = filteredTasks
             return stateCopy
         }
-        case 'ADD-TASK':{
+        case 'ADD-TASK': {
             const stateCopy = {...state}
             const newTask = {id: v1(), title: action.newTitle, isDone: false}
             const todoListTasks = stateCopy[action.todoListId]
@@ -75,7 +84,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
             return stateCopy
         }
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
