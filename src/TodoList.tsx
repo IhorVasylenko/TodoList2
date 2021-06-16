@@ -20,70 +20,85 @@ export type TodoListPropsType = {
     changeTodoListTitle: (todoListId: string, title: string) => void,
 }
 
-export const TodoList = React.memo ((props: TodoListPropsType) => {
+export const TodoList = React.memo ((
+    {
+        addTask,
+        todoListId,
+        tasks,
+        changeFilter,
+        title,
+        removeTask,
+        removeTodoList,
+        changeTodoListTitle,
+        changeTaskStatus,
+        changeTaskTitle,
+        filter,
+    }: TodoListPropsType) => {
 
-    const addTask = useCallback((title: string) => props.addTask(title, props.todoListId),
-        [props.addTask, props.todoListId]);
-    const removeTodoList = () => props.removeTodoList(props.todoListId);
-    const changeTodoListTitle = useCallback(
-        (newValue: string) => props.changeTodoListTitle(props.todoListId, newValue),
-        [props.changeTodoListTitle, props.todoListId]);
+    const addTaskFn = useCallback((title: string) => addTask(title, todoListId),
+        [addTask, todoListId]);
+    const removeTodoListFn = useCallback(
+        () => removeTodoList(todoListId),
+        [removeTodoList, todoListId]);
+    const changeTodoListTitleFn = useCallback(
+        (newValue: string) => changeTodoListTitle(todoListId, newValue),
+        [changeTodoListTitle, todoListId]);
 
-    const onAllClickHandler = useCallback(() => props.changeFilter(props.todoListId, 'all'),
-        [props.changeFilter, props.todoListId]);
-    const onActiveClickHandler = useCallback(() => props.changeFilter(props.todoListId, 'active'),
-        [props.changeFilter, props.todoListId]);
-    const onCompletedClickHandler = useCallback(() => props.changeFilter(props.todoListId, 'completed'),
-        [props.changeFilter, props.todoListId]);
+    const onAllClickHandler = useCallback(() => changeFilter(todoListId, 'all'),
+        [changeFilter, todoListId]);
+    const onActiveClickHandler = useCallback(() => changeFilter(todoListId, 'active'),
+        [changeFilter, todoListId]);
+    const onCompletedClickHandler = useCallback(() => changeFilter(todoListId, 'completed'),
+        [changeFilter, todoListId]);
 
 
-    let tasksForTodoList = props.tasks;
-    if (props.filter === 'active') {
-        tasksForTodoList = props.tasks.filter(t => !t.isDone)
+    let tasksForTodoList = tasks;
+    if (filter === 'active') {
+        tasksForTodoList = tasks.filter(t => !t.isDone)
     }
-    if (props.filter === 'completed') {
-        tasksForTodoList = props.tasks.filter(t => t.isDone)
+    if (filter === 'completed') {
+        tasksForTodoList = tasks.filter(t => t.isDone)
     }
 
 
     const allTasks = tasksForTodoList.map( (t:TaskPropsType ) => <Task
         key={t.id}
-        changeTaskStatus={props.changeTaskStatus}
-        removeTask={props.removeTask}
-        changeTaskTitle={props.changeTaskTitle}
+        changeTaskStatus={changeTaskStatus}
+        removeTask={removeTask}
+        changeTaskTitle={changeTaskTitle}
         task={t}
-        todoListId={props.todoListId} /> );
+        todoListId={todoListId} /> );
 
     return (
         <div>
             <h3>
-                <EditableSpan value={props.title} onChangeTitle={changeTodoListTitle} />
-                <IconButton color={"secondary"} size={"medium"} onClick={removeTodoList}>
+                <EditableSpan value={title} onChangeTitle={changeTodoListTitleFn} />
+                <IconButton color={"secondary"} size={"medium"} onClick={removeTodoListFn}>
                     <DeleteForever />
                 </IconButton>
             </h3>
-            <AddItemForm addItem={addTask} />
+            <AddItemForm addItem={addTaskFn} />
             <div>
                 {allTasks}
             </div>
             <div>
                 <Button
-                    color={props.filter === 'all' ? 'default' : 'default'}
+                    color={filter === 'all' ? 'default' : 'default'}
                     style={{margin: "3px"}}
                     size={"small"}
-                    variant={props.filter === 'all' ? 'contained' : 'outlined'}
+                    variant={filter === 'all' ? 'contained' : 'outlined'}
                     onClick={onAllClickHandler}>All</Button>
                 <Button
-                    color={props.filter === 'active' ? 'primary' : 'default'}
+                    color={filter === 'active' ? 'primary' : 'default'}
                     style={{margin: "3px"}}
                     size={"small"}
-                    variant={props.filter === 'active' ? 'contained' : 'outlined'}
+                    variant={filter === 'active' ? 'contained' : 'outlined'}
                     onClick={onActiveClickHandler}>Active</Button>
                 <Button
-                    color={props.filter === 'completed' ? 'primary' : 'default'}
+                    color={filter === 'completed' ? 'primary' : 'default'}
                     style={{margin: "3px"}}
                     size={"small"}
-                    variant={props.filter === 'completed' ? 'contained' : 'outlined'}
+                    variant={filter === 'completed' ? 'contained' : 'outlined'}
                     onClick={onCompletedClickHandler}>Completed</Button>
             </div>
         </div>

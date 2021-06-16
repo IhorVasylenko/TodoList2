@@ -3,16 +3,16 @@ import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
 export type AddItemFormPropsType = {
-    addItem: (title: string) => void
+    addItem: (title: string) => void;
 };
 
-export const AddItemForm = React.memo ((props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo (({addItem}: AddItemFormPropsType) => {
     const [title, setTitle] = useState('');
     const [error, setError] = useState<string | null>(null);
 
-    const addItem = () => {
+    const addItemFn = () => {
         if (title.trim() !== '') {
-            props.addItem(title);
+            addItem(title);
             setTitle('');
         } else {
             setError('Title is required')
@@ -20,7 +20,7 @@ export const AddItemForm = React.memo ((props: AddItemFormPropsType) => {
     };
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        setTitle(e.currentTarget.value);
     };
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ export const AddItemForm = React.memo ((props: AddItemFormPropsType) => {
             setError(null)
         }
         if(e.charCode === 13) {
-            addItem()
+            addItemFn()
         }
     };
 
@@ -46,7 +46,7 @@ export const AddItemForm = React.memo ((props: AddItemFormPropsType) => {
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
             />
-            <IconButton size={"medium"} color={error ? 'secondary' : 'primary'} onClick={addItem}>
+            <IconButton size={"medium"} color={error ? 'secondary' : 'primary'} onClick={addItemFn}>
                 <AddBox />
             </IconButton>
         </div>
