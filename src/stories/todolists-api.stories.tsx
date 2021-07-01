@@ -20,39 +20,109 @@ export const GetTodoLists = () => {
 
 export const CreateTodolist = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
+    /*useEffect(() => {
         let title: string = "new todoList";
         todoListAPI.createTodolist(title)
             .then((res) => {
                 setState(res.data);
             })
-    }, []);
-    return <div> {JSON.stringify(state)}</div>
+    }, []);*/
+    const [todoListTitle, setTodoListTitle] = useState<string>('');
+    const createTodoListTitleHandler = () => {
+        todoListAPI.createTodolist(todoListTitle.toUpperCase())
+            .then((res) => {
+                setState(res.data);
+                setTodoListTitle("")
+            })
+    };
+
+    return (
+        <div>
+            {JSON.stringify(state)}
+           <div>
+               <input
+                   placeholder={"todoListTitle"}
+                   value={todoListTitle}
+                   onChange={e => setTodoListTitle(e.currentTarget.value)} />
+               <button onClick={createTodoListTitleHandler}>
+                   create todoList
+               </button>
+           </div>
+        </div>
+    )
 };
 
 export const DeleteTodolist = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        let todoListId: string = "b6d69c1e-5ec7-4021-b364-024fe9aa6a25";
+    /*useEffect(() => {
+        let todoListId: string = "62f5730a-50d3-474e-9b0d-9c9219b2cd02";
         todoListAPI.deleteTodolist(todoListId)
             .then((res) => {
                 setState(res.data);
             })
-    }, [])
-    return <div> {JSON.stringify(state)}</div>
+    }, [])*/
+    const [todoListId, setTodoListId] = useState<string>('');
+    const deleteTodoListHandler = () => {
+        todoListAPI.deleteTodolist(todoListId)
+            .then((res) => {
+                setState(res.data);
+            })
+    };
+
+    return (
+        <div>
+            {JSON.stringify(state)}
+            <div>
+                <input
+                    placeholder={"todoListId"}
+                    value={todoListId}
+                    onChange={e => setTodoListId(e.currentTarget.value)}
+                />
+                <button onClick={deleteTodoListHandler}>
+                    delete todoLis
+                </button>
+            </div>
+        </div>
+    )
 };
 
 export const UpdateTodolistTitle = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
+    /*useEffect(() => {
         let todoListId: string = "b6d69c1e-5ec7-4021-b364-024fe9aa6a25";
         let title: string = "update todoList title";
         todoListAPI.updateTodolistTitle(todoListId, title)
             .then((res) => {
                 setState(res.data);
             })
-    }, [])
-    return <div> {JSON.stringify(state)}</div>
+    }, []);*/
+    const [todoListId, setTodoListId] = useState<string>('');
+    const [todoListTitle, setTodoListTitle] = useState<string>('');
+    const updateTodoListTitleHandler = () => {
+        todoListAPI. updateTodolistTitle(todoListId, todoListTitle.toUpperCase())
+            .then((res) => {
+                setState(res.data);
+            })
+    };
+
+    return (
+        <div>
+            {JSON.stringify(state)}
+            <div>
+                <input
+                    placeholder={"todoListId"}
+                    value={todoListId}
+                    onChange={e => setTodoListId(e.currentTarget.value)} />
+                <input
+                    placeholder={"todoListTitle"}
+                    value={todoListTitle}
+                    onChange={e => setTodoListTitle(e.currentTarget.value)} />
+                <button onClick={updateTodoListTitleHandler}>
+                    update todoList title
+                </button>
+            </div>
+        </div>
+    )
 };
 
 
@@ -71,6 +141,7 @@ export const GetTasks = () => {
         todoListAPI.getTasks(todoListId)
             .then((res) => {
                 setState(res.data);
+                setTodoListId("")
             })
     };
 
@@ -104,9 +175,10 @@ export const CreateTask = () => {
     const [todoListId, setTodoListId] = useState<string>('');
 
     const createTaskTitleHandler = () => {
-        todoListAPI.createTask(todoListId, taskTitle)
+        todoListAPI.createTask(todoListId, taskTitle.toUpperCase())
             .then((res) => {
                 setState(res.data);
+                setTasTitle("")
             })
     };
 
@@ -190,7 +262,7 @@ export const UpdateTaskTitle = () => {
 
     const updateTaskTitleHandler = () => {
         todoListAPI.updateTaskTitle(todoListId, taskId, {
-            title: taskTitle,
+            title: taskTitle.toUpperCase(),
             description: "",
             completed: false,
             status: 0,

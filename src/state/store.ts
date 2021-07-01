@@ -1,5 +1,5 @@
-import {tasksReducer} from "./tasksReducer";
-import {todoListsReducer} from "./todoListsReducer";
+import {TaskActionType, tasksReducer} from "./tasksReducer";
+import {TodoListActionType, todoListsReducer} from "./todoListsReducer";
 import {combineReducers, createStore} from 'redux';
 
 
@@ -15,6 +15,10 @@ export const store = createStore(rootReducer)
 
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
+
+export type CommonActionTypeForApp = TodoListActionType | TaskActionType;
+
+export type InferActionType<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never;
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore

@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {FilterValuesType, TaskPropsType} from "./AppWithRedux";
+import {FilterValuesType, TaskPropsType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
@@ -20,8 +20,9 @@ export type TodoListPropsType = {
     changeTodoListTitle: (todoListId: string, title: string) => void,
 }
 
-export const TodoList = React.memo ((
-    {
+export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
+
+    const {
         addTask,
         todoListId,
         tasks,
@@ -33,7 +34,7 @@ export const TodoList = React.memo ((
         changeTaskStatus,
         changeTaskTitle,
         filter,
-    }: TodoListPropsType) => {
+    } = props;
 
     const addTaskFn = useCallback((title: string) => addTask(title, todoListId),
         [addTask, todoListId]);
@@ -62,7 +63,7 @@ export const TodoList = React.memo ((
 
 
     const allTasks = tasksForTodoList.map( (t:TaskPropsType ) => <Task
-        key={t.id}
+        key={t.tasksId}
         changeTaskStatus={changeTaskStatus}
         removeTask={removeTask}
         changeTaskTitle={changeTaskTitle}

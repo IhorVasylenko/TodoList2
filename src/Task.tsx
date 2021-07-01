@@ -2,7 +2,7 @@ import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
-import {TaskPropsType} from "./AppWithRedux";
+import {TaskPropsType} from "./App";
 
 export type TaskType = {
     changeTaskStatus: (id: string, isDone: boolean, todoListId: string) => void,
@@ -12,29 +12,31 @@ export type TaskType = {
     todoListId: string,
 };
 
-export const Task = React.memo((
-    {
+export const Task: React.FC<TaskType> = React.memo((props) => {
+
+    const {
         task,
         changeTaskStatus,
         changeTaskTitle,
         removeTask,
         todoListId,
-    }: TaskType) => {
-    const onClickHandler = () => removeTask(task.id, todoListId);
+    } = props;
+
+    const onClickHandler = () => removeTask(task.tasksId, todoListId);
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        changeTaskStatus(task.id, newIsDoneValue, todoListId);
+        changeTaskStatus(task.tasksId, newIsDoneValue, todoListId);
     };
     const changeTaskTitleFn = useCallback (
-        (title: string) => changeTaskTitle(task.id, title, todoListId),
-        [changeTaskTitle, task.id, todoListId]);
+        (title: string) => changeTaskTitle(task.tasksId, title, todoListId),
+        [changeTaskTitle, task.tasksId, todoListId]);
 
     return (
-        <div key={task.id}>
+        <div key={task.tasksId}>
             <Checkbox
                 size={"small"}
                 color={"default"}
-                id={task.id}
+                id={task.tasksId}
                 checked={task.isDone}
                 onChange={onChangeHandler}
             />
