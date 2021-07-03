@@ -1,22 +1,23 @@
 import React, {useCallback} from "react";
-import {FilterValuesType, TaskPropsType} from "./App";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {DeleteForever} from "@material-ui/icons";
 import {Task} from "./Task";
+import {TaskStatuses, TaskType} from "./api/todoListsAPI";
+import {FilterValuesType} from "./state/todoListsReducer";
 
 export type TodoListPropsType = {
     todoListId: string,
     title: string,
-    tasks: TaskPropsType[],
+    tasks: TaskType[],
     filter: FilterValuesType,
     removeTask: (id: string, todoListId: string) => void,
     changeFilter: (todoListId:  string, value: FilterValuesType) => void,
     addTask: (value: string, todoListId: string) => void,
-    changeTaskStatus: (id: string, isDone: boolean, todoListId: string) => void,
+    changeTaskStatus: (id: string, status: TaskStatuses, todoListId: string) => void,
     removeTodoList: (id: string) => void,
-    changeTaskTitle: (taskId: string, title: string, todoListId: string) => void,
+    changeTaskTitle: (id: string, title: string, todoListId: string) => void,
     changeTodoListTitle: (todoListId: string, title: string) => void,
 }
 
@@ -55,20 +56,23 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
 
     let tasksForTodoList = tasks;
     if (filter === 'active') {
-        tasksForTodoList = tasks.filter(t => !t.isDone)
+        tasksForTodoList = tasks.filter(t => t.status === TaskStatuses.New)
     }
     if (filter === 'completed') {
-        tasksForTodoList = tasks.filter(t => t.isDone)
+        tasksForTodoList = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
 
-    const allTasks = tasksForTodoList.map( (t:TaskPropsType ) => <Task
-        key={t.tasksId}
-        changeTaskStatus={changeTaskStatus}
-        removeTask={removeTask}
-        changeTaskTitle={changeTaskTitle}
-        task={t}
-        todoListId={todoListId} /> );
+
+    const allTasks = tasksForTodoList.map( (t:TaskType ) => {
+       return <Task
+            key={t.id}
+            changeTaskStatus={changeTaskStatus}
+            removeTask={removeTask}
+            changeTaskTitle={changeTaskTitle}
+            task={t}
+            todoListId={t.todoListId}/>
+    } );
 
     return (
         <div>

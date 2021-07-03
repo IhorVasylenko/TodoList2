@@ -1,18 +1,17 @@
 import {v1} from "uuid";
-import {FilterValuesType, TodoListType} from "../App";
-import {actionsForTodoLists, todoListsReducer} from "./todoListsReducer";
+import {actionsForTodoLists, FilterValuesType, TodoListDomainType, todoListsReducer} from "./todoListsReducer";
 
 
 let todoListId1: string
 let todoListId2: string
-let startState: Array<TodoListType> = []
+let startState: Array<TodoListDomainType> = []
 
 beforeEach (() => {
     todoListId1 = v1()
     todoListId2 = v1()
     startState = [
-        {todoListId: todoListId1, title: 'What to learn', filter: 'all'},
-        {todoListId: todoListId2, title: 'What to buy', filter: 'all'}]
+        {id: todoListId1, title: 'What to learn', filter: 'all', order: 0, addedDate: '',},
+        {id: todoListId2, title: 'What to buy', filter: 'all', order: 0, addedDate: '',}]
 })
 
 test('correct todolist should be removed', () => {
@@ -20,7 +19,7 @@ test('correct todolist should be removed', () => {
     const endState = todoListsReducer(startState, action)
 
     expect(endState.length).toBe(1)
-    expect(endState[0].todoListId).toBe(todoListId2)
+    expect(endState[0].id).toBe(todoListId2)
 })
 
 test('correct todolist should be added', () => {

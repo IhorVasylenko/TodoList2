@@ -2,17 +2,17 @@ import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
-import {TaskPropsType} from "./App";
+import {TaskStatuses, TaskType} from "./api/todoListsAPI";
 
-export type TaskType = {
-    changeTaskStatus: (id: string, isDone: boolean, todoListId: string) => void,
+export type TasksType = {
+    changeTaskStatus: (id: string, status: TaskStatuses, todoListId: string) => void,
     removeTask: (id: string, todoListId: string) => void,
     changeTaskTitle: (taskId: string, title: string, todoListId: string) => void,
-    task: TaskPropsType,
+    task: TaskType,
     todoListId: string,
 };
 
-export const Task: React.FC<TaskType> = React.memo((props) => {
+export const Task: React.FC<TasksType> = React.memo((props) => {
 
     const {
         task,
@@ -22,25 +22,26 @@ export const Task: React.FC<TaskType> = React.memo((props) => {
         todoListId,
     } = props;
 
-    const onClickHandler = () => removeTask(task.tasksId, todoListId);
+    const onClickHandler = () => removeTask(task.id, todoListId);
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        changeTaskStatus(task.tasksId, newIsDoneValue, todoListId);
+        changeTaskStatus(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, todoListId);
+        console.log(task.status)
     };
     const changeTaskTitleFn = useCallback (
-        (title: string) => changeTaskTitle(task.tasksId, title, todoListId),
-        [changeTaskTitle, task.tasksId, todoListId]);
+        (title: string) => changeTaskTitle(task.id, title, todoListId),
+        [changeTaskTitle, task.id, todoListId]);
 
     return (
-        <div key={task.tasksId}>
+        <div key={task.id}>
             <Checkbox
                 size={"small"}
                 color={"default"}
-                id={task.tasksId}
-                checked={task.isDone}
+                id={task.id}
+                checked={task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
             />
-            <span style={task.isDone ? {opacity: "0.5"} : {opacity: "1"}}>
+            <span style={task.status === TaskStatuses.Completed ? {opacity: "0.5"} : {opacity: "1"}}>
                         <EditableSpan value={task.title} onChangeTitle={changeTaskTitleFn}/>
                     </span>
             <IconButton onClick={onClickHandler}>

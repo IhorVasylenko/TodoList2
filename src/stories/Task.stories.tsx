@@ -1,7 +1,8 @@
 import React from 'react';
 import {Meta, Story} from '@storybook/react';
 import {action} from "@storybook/addon-actions";
-import {Task, TaskType} from "../Task";
+import {Task, TasksType} from "../Task";
+import {TaskPriorities, TaskStatuses} from "../api/todoListsAPI";
 
 
 export default {
@@ -13,7 +14,7 @@ const changeTaskStatusCallback = action('Status changed inside Task');
 const changeTaskTitleCallback = action('Title changed inside Task');
 const removeTaskCallback = action('Remove Button inside Task clicked');
 
-const Template: Story<TaskType> = (args) => <Task {...args} />;
+const Template: Story<TasksType> = (args) => <Task {...args} />;
 
 const baseArgs = {
     changeTaskStatus: changeTaskStatusCallback,
@@ -21,16 +22,52 @@ const baseArgs = {
     removeTask: removeTaskCallback,
 }
 
-export const TaskIsDoneExample = Template.bind({});
+/*export const TaskIsDoneExample = Template.bind({});
 TaskIsDoneExample.args = {
     ...baseArgs,
-    task: {tasksId: '1', isDone: true, title: 'JS'},
-    todoListId: 'todoListId1',
+    task: {id: '1', status: TaskStatuses.Completed, title: 'JS', description: '', completed: false,
+        priority: TaskPriorities.Middle, startDate: '', deadline: '', todoListId: "todoListId1", order: 0, addedDate: '',},
 };
 
 export const TaskIsNotDoneExample = Template.bind({});
 TaskIsNotDoneExample.args = {
     ...baseArgs,
-    task: {tasksId: '2', isDone: false, title: 'CSS'},
-    todoListId: 'todoListId1',
+    task: {id: '2', status: TaskStatuses.New, title: 'CSS', description: '', completed: false,
+        priority: TaskPriorities.Middle, startDate: '', deadline: '', todoListId: "todoListId2", order: 0, addedDate: '',},
+};*/
+
+export const TaskIsDoneExample = Template.bind({});
+TaskIsDoneExample.args = {
+    ...baseArgs,
+    task: {id: '1',
+        status: TaskStatuses.Completed,
+        title: 'JS',
+        description: '',
+        completed: false,
+        priority: TaskPriorities.Middle,
+        startDate: '',
+        deadline: '',
+        todoListId: "todoListId1",
+        order: 0,
+        addedDate: '',},
+    todoListId: "todoListId1",
+};
+
+export const TaskIsNotDoneExample = Template.bind({});
+TaskIsNotDoneExample.args = {
+    ...baseArgs,
+    task: {
+        id: '2',
+        status: TaskStatuses.New,
+        title: 'CSS',
+        description: '',
+        completed: false,
+        priority: TaskPriorities.Middle,
+        startDate: '',
+        deadline: '',
+        todoListId: "todoListId2",
+        order: 0,
+        addedDate: '',
+    },
+    todoListId: "todoListId2",
 };
