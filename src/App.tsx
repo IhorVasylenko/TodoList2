@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {AddItemForm} from "./AddItemForm";
@@ -7,8 +7,8 @@ import {Menu} from "@material-ui/icons";
 import {actionsForTasks, TasksStateType} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from './state/store';
-import {actionsForTodoLists, FilterValuesType, TodoListDomainType} from "./state/todoListsReducer";
-import {TaskStatuses} from "./api/todoListsAPI";
+import {actionsForTodoLists, fetchTodoLists, FilterValuesType, TodoListDomainType} from "./state/todoListsReducer";
+import {TaskStatuses, todoListAPI} from "./api/todoListsAPI";
 
 
 export function App() {
@@ -17,6 +17,10 @@ export function App() {
     });
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchTodoLists())
+    }, []);
 
     const removeTodoList = useCallback ((todoListId: string) => {
         dispatch(actionsForTodoLists.removeTodoList(todoListId))

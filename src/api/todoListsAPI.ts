@@ -46,7 +46,14 @@ export type TaskType = {
     addedDate: string
 };
 
-export type UpdateTaskType = {
+type ResponseType<D = {}> = {
+    data: D
+    resultCode: number
+    messages: string[]
+    fieldsErrors: string[]
+};
+
+type UpdateTaskType = {
     title: string
     description: string
     completed: boolean
@@ -56,12 +63,11 @@ export type UpdateTaskType = {
     deadline: string
 }
 
-type ResponseType<D = {}> = {
-    data: D
-    resultCode: number
-    messages: string[]
-    fieldsErrors: string[]
-};
+type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
+}
 
 
 export const todoListAPI = {
@@ -78,7 +84,7 @@ export const todoListAPI = {
         return instance.put<ResponseType<{item: TodoListType}>>(`todo-lists/${todoListId}`, { title })
     },
     getTasks(todoListId: string) {
-        return instance.get<ResponseType<TaskType[]>>(`todo-lists/${todoListId}/tasks`)
+        return instance.get<GetTasksResponse>(`todo-lists/${todoListId}/tasks`)
     },
     createTask(todoListId: string, title: string) {
         return instance.post<ResponseType<{item: TaskType}>>(`todo-lists/${todoListId}/tasks`, { title })

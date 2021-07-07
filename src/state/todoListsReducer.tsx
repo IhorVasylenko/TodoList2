@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {CommonActionTypeForApp, InferActionType} from "./store";
-import {TodoListType} from "../api/todoListsAPI";
+import {todoListAPI, TodoListType} from "../api/todoListsAPI";
+import {Dispatch} from "redux";
 
 
 
@@ -44,6 +45,8 @@ export const todoListsReducer = (state: InitialTodoListStateType = initialState,
             }
             return [...state]
         }
+        case "SET-TODO-LISTS":
+            return action.todoLists.map((tl) => ({...tl, filter: 'all'}));
         default:
             return state;
     }
@@ -69,6 +72,17 @@ export const actionsForTodoLists = {
         todoListId,
         filter,
     } as const),
+    setTodoLists: (todoLists: TodoListType[]) => ({
+        type: "SET-TODO-LISTS",
+        todoLists
+    } as const),
 };
+
+export const fetchTodoLists = () => (dispatch: Dispatch) => {
+    todoListAPI.getTodoLists()
+        .then(res => {
+            dispatch(actionsForTodoLists.setTodoLists(res.data))
+        })
+}
 
 
