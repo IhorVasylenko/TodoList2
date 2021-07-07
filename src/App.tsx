@@ -4,11 +4,12 @@ import {TodoList} from "./TodoList";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {actionsForTasks, TasksStateType} from "./state/tasksReducer";
+import {createTask, removeTask, TasksStateType, updateTask} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from './state/store';
-import {actionsForTodoLists, fetchTodoLists, FilterValuesType, TodoListDomainType} from "./state/todoListsReducer";
-import {TaskStatuses, todoListAPI} from "./api/todoListsAPI";
+import {actionsForTodoLists, createTodoList, fetchTodoLists, FilterValuesType,
+    removeTodoLists, TodoListDomainType, updateTodoListTitle} from "./state/todoListsReducer";
+import {TaskStatuses} from "./api/todoListsAPI";
 
 
 export function App() {
@@ -22,30 +23,30 @@ export function App() {
         dispatch(fetchTodoLists())
     }, []);
 
-    const removeTodoList = useCallback ((todoListId: string) => {
-        dispatch(actionsForTodoLists.removeTodoList(todoListId))
+    const deleteTodoList = useCallback ((todoListId: string) => {
+        dispatch(removeTodoLists(todoListId))
     }, [dispatch]);
     const addTodoList = useCallback ((title: string) => {
-        dispatch(actionsForTodoLists.addTodoList(title))
+        dispatch(createTodoList(title))
     }, [dispatch]);
     const changeTodoListTitle = useCallback ((todoListId: string, title: string) => {
-        dispatch(actionsForTodoLists.changeTodoListTitle(todoListId, title))
+        dispatch(updateTodoListTitle(todoListId, title))
     }, [dispatch]);
     const changeFilter = useCallback ((todoListId:  string, value: FilterValuesType) => {
-        dispatch(actionsForTodoLists.changeTodoListFilter(todoListId, value))
+        dispatch(actionsForTodoLists.updateTodoListFilter(todoListId, value))
     }, [dispatch]);
 
-    const removeTask = useCallback ((id: string, todoListId: string) => {
-        dispatch(actionsForTasks.removeTask(id, todoListId))
+    const deleteTask = useCallback ((id: string, todoListId: string) => {
+        dispatch(removeTask(id, todoListId))
     }, [dispatch]);
     const addTask = useCallback ((title: string, todoListId: string) => {
-        dispatch(actionsForTasks.addTask(title, todoListId))
+        dispatch(createTask(todoListId, title))
     }, [dispatch]);
-    const changeTaskStatus = useCallback ((id: string, status: TaskStatuses, todoListId: string) => {
-        dispatch(actionsForTasks.changeTaskStatus(id, status, todoListId))
+    const changeTaskStatus = useCallback ((todoListId: string, id: string, status: TaskStatuses) => {
+        dispatch(updateTask(todoListId, id, {status}))
     }, [dispatch]);
     const changeTaskTitle = useCallback ((id: string, title: string, todoListId: string) => {
-        dispatch(actionsForTasks.changeTaskTitle(id, title, todoListId))
+        dispatch(updateTask(todoListId, id, {title}))
     }, [dispatch]);
 
     return (
@@ -77,12 +78,12 @@ export function App() {
                                             todoListId={tl.id}
                                             title={tl.title}
                                             tasks={tasksForTodoList}
-                                            removeTask={removeTask}
+                                            removeTask={deleteTask}
                                             changeFilter={changeFilter}
                                             addTask={addTask}
                                             changeTaskStatus={changeTaskStatus}
                                             filter={tl.filter}
-                                            removeTodoList={removeTodoList}
+                                            removeTodoList={deleteTodoList}
                                             changeTaskTitle={changeTaskTitle}
                                             changeTodoListTitle={changeTodoListTitle}
                                         />

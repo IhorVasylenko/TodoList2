@@ -5,7 +5,7 @@ import {Delete} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "./api/todoListsAPI";
 
 export type TasksType = {
-    changeTaskStatus: (id: string, status: TaskStatuses, todoListId: string) => void,
+    changeTaskStatus: (todoListId: string, id: string, status: TaskStatuses) => void,
     removeTask: (id: string, todoListId: string) => void,
     changeTaskTitle: (taskId: string, title: string, todoListId: string) => void,
     task: TaskType,
@@ -25,7 +25,7 @@ export const Task: React.FC<TasksType> = React.memo((props) => {
     const onClickHandler = () => removeTask(task.id, todoListId);
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        changeTaskStatus(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New, todoListId);
+        changeTaskStatus(todoListId, task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New);
         console.log(task.status)
     };
     const changeTaskTitleFn = useCallback (

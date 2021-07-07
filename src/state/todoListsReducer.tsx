@@ -23,22 +23,17 @@ export const todoListsReducer = (state: InitialTodoListStateType = initialState,
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return state.filter(tl => tl.id !== action.todoListId);
-        case "ADD-TODOLIST":
-            return [{
-                id: action.todoListId,
-                title: action.title,
-                filter: 'all',
-                addedDate: "",
-                order: 0,
-            }, ...state];
-        case "CHANGE-TODOLIST-TITLE": {
+        case "CREATE-TODOLIST":
+            const newTodoList: TodoListDomainType = {...action.todoList, filter: "all" }
+            return [newTodoList, ...state];
+        case "UPDATE-TODOLIST-TITLE": {
             const todoList = state.find(tl => tl.id === action.todoListId)
             if (todoList) {
                 todoList.title = action.title
             }
             return [...state]
         }
-        case "CHANGE-TODOLIST-FILTER": {
+        case "UPDATE-TODOLIST-FILTER": {
             const todoList = state.find(tl => tl.id === action.todoListId)
             if (todoList) {
                 todoList.filter = action.filter
@@ -57,18 +52,17 @@ export const actionsForTodoLists = {
         type: "REMOVE-TODOLIST",
         todoListId,
     } as const ),
-    addTodoList: (title: string) => ({
-        type: "ADD-TODOLIST",
-        title,
-        todoListId: v1(),
+    createTodoList: (todoList: TodoListType) => ({
+        type: "CREATE-TODOLIST",
+        todoList,
     } as const),
-    changeTodoListTitle: (todoListId: string, title: string) => ({
-        type: "CHANGE-TODOLIST-TITLE",
+    updateTodoListTitle: (todoListId: string, title: string) => ({
+        type: "UPDATE-TODOLIST-TITLE",
         todoListId,
         title,
     } as const),
-    changeTodoListFilter: (todoListId: string, filter: FilterValuesType) => ({
-        type: "CHANGE-TODOLIST-FILTER",
+    updateTodoListFilter: (todoListId: string, filter: FilterValuesType) => ({
+        type: "UPDATE-TODOLIST-FILTER",
         todoListId,
         filter,
     } as const),
@@ -82,7 +76,25 @@ export const fetchTodoLists = () => (dispatch: Dispatch) => {
     todoListAPI.getTodoLists()
         .then(res => {
             dispatch(actionsForTodoLists.setTodoLists(res.data))
-        })
-}
+        });
+};
+export const removeTodoLists = (todoListId: string) => (dispatch: Dispatch) => {
+    todoListAPI.removeTodolist(todoListId)
+        .then(() => {
+            dispatch(actionsForTodoLists.removeTodoList(todoListId))
+        });
+};
+export const createTodoList = (title: string) => (dispatch: Dispatch) => {
+    todoListAPI.createTodolist(title)
+        .then((res) => {
+            dispatch(actionsForTodoLists.createTodoList(res.data.data.item))
+        });
+};
+export const updateTodoListTitle = (todoListId: string, title: string) => (dispatch: Dispatch) => {
+    todoListAPI.updateTodoListTitle(todoListId, title)
+        .then(() => {
+            dispatch(actionsForTodoLists.updateTodoListTitle(todoListId, title))
+        });
+};
 
 

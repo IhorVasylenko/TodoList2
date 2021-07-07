@@ -63,7 +63,7 @@ export const DeleteTodolist = () => {
     }, [])*/
     const [todoListId, setTodoListId] = useState<string>('');
     const deleteTodoListHandler = () => {
-        todoListAPI.deleteTodolist(todoListId)
+        todoListAPI.removeTodolist(todoListId)
             .then((res) => {
                 setState(res.data);
             })
@@ -99,7 +99,7 @@ export const UpdateTodolistTitle = () => {
     const [todoListId, setTodoListId] = useState<string>('');
     const [todoListTitle, setTodoListTitle] = useState<string>('');
     const updateTodoListTitleHandler = () => {
-        todoListAPI. updateTodolistTitle(todoListId, todoListTitle.toUpperCase())
+        todoListAPI. updateTodoListTitle(todoListId, todoListTitle.toUpperCase())
             .then((res) => {
                 setState(res.data);
             })
@@ -216,7 +216,7 @@ export const DeleteTask = () => {
     const [todoListId, setTodoListId] = useState<string>('');
 
     const deleteTaskHandler = () => {
-        todoListAPI.deleteTask(todoListId, taskId)
+        todoListAPI.removeTask(todoListId, taskId)
             .then((res) => {
                 setState(res.data);
             })
@@ -261,10 +261,9 @@ export const UpdateTaskTitle = () => {
     const [todoListId, setTodoListId] = useState<string>('');
 
     const updateTaskTitleHandler = () => {
-        todoListAPI.updateTaskTitle(todoListId, taskId, {
+        todoListAPI.updateTask(todoListId, taskId, {
             title: taskTitle.toUpperCase(),
             description: "",
-            completed: false,
             status: 0,
             priority: 0,
             startDate: "",

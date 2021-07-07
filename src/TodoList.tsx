@@ -5,7 +5,7 @@ import {Button, IconButton} from "@material-ui/core";
 import {DeleteForever} from "@material-ui/icons";
 import {Task} from "./Task";
 import {TaskStatuses, TaskType} from "./api/todoListsAPI";
-import {fetchTodoLists, FilterValuesType} from "./state/todoListsReducer";
+import {FilterValuesType} from "./state/todoListsReducer";
 import {useDispatch} from "react-redux";
 import {fetchTask} from "./state/tasksReducer";
 
@@ -17,7 +17,7 @@ export type TodoListPropsType = {
     removeTask: (id: string, todoListId: string) => void,
     changeFilter: (todoListId:  string, value: FilterValuesType) => void,
     addTask: (value: string, todoListId: string) => void,
-    changeTaskStatus: (id: string, status: TaskStatuses, todoListId: string) => void,
+    changeTaskStatus: (todoListId: string, id: string, status: TaskStatuses) => void,
     removeTodoList: (id: string) => void,
     changeTaskTitle: (id: string, title: string, todoListId: string) => void,
     changeTodoListTitle: (todoListId: string, title: string) => void,

@@ -19,18 +19,18 @@ const initialGlobalState: AppRootStateType = {
     ] ,
     tasks: {
         ["todoListId1"]: [
-            {description: '', title: "HTML&CSS", completed: false, status: TaskStatuses.New,
+            {description: '', title: "HTML&CSS", status: TaskStatuses.New,
                 priority: TaskPriorities.Middle, startDate: '', deadline: '', id: v1(),
                 todoListId: "todoListId1", order: 0, addedDate: '',},
-            {description: '', title: "JS", completed: false, status: TaskStatuses.New,
+            {description: '', title: "JS",  status: TaskStatuses.New,
                 priority: TaskPriorities.Middle, startDate: '', deadline: '', id: v1(),
                 todoListId: "todoListId1", order: 0, addedDate: '',},
         ],
         ["todoListId2"]: [
-            {description: '', title: "Milk", completed: false, status: TaskStatuses.Completed,
+            {description: '', title: "Milk", status: TaskStatuses.Completed,
                 priority: TaskPriorities.Middle, startDate: '', deadline: '', id: v1(),
                 todoListId: "todoListId2", order: 0, addedDate: '',},
-            {description: '', title: "React Book", completed: false, status: TaskStatuses.Completed,
+            {description: '', title: "React Book",  status: TaskStatuses.Completed,
                 priority: TaskPriorities.Middle, startDate: '', deadline: '', id: v1(),
                 todoListId: "todoListId2", order: 0, addedDate: '',},
         ],
