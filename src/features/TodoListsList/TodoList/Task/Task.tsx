@@ -2,15 +2,9 @@ import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../../components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
-import {TaskStatuses, TaskType} from "../../../../api/todoListsAPI";
+import {TaskStatuses} from "../../../../api/todoListsAPI";
+import {TaskDomainType} from "../../tasksReducer";
 
-export type TasksType = {
-    changeTaskStatus: (todoListId: string, id: string, status: TaskStatuses) => void,
-    removeTask: (id: string, todoListId: string) => void,
-    changeTaskTitle: (taskId: string, title: string, todoListId: string) => void,
-    task: TaskType,
-    todoListId: string,
-};
 
 export const Task: React.FC<TasksType> = React.memo((props) => {
 
@@ -22,11 +16,15 @@ export const Task: React.FC<TasksType> = React.memo((props) => {
         todoListId,
     } = props;
 
-    const onClickHandler = () => removeTask(task.id, todoListId);
+    const onClickHandler = useCallback(
+        () => removeTask(task.id, todoListId),
+        [removeTask, task.id, todoListId]);
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
         changeTaskStatus(todoListId, task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New);
     };
+
     const changeTaskTitleFn = useCallback (
         (title: string) => changeTaskTitle(task.id, title, todoListId),
         [changeTaskTitle, task.id, todoListId]);
@@ -39,13 +37,28 @@ export const Task: React.FC<TasksType> = React.memo((props) => {
                 id={task.id}
                 checked={task.status === TaskStatuses.Completed}
                 onChange={onChangeHandler}
+                disabled={task.entityStatus === "loading"}
             />
             <span style={task.status === TaskStatuses.Completed ? {opacity: "0.5"} : {opacity: "1"}}>
-                        <EditableSpan value={task.title} onChangeTitle={changeTaskTitleFn}/>
+                        <EditableSpan
+                            value={task.title}
+                            onChangeTitle={changeTaskTitleFn}
+                            disabled={task.entityStatus === "loading"}
+                        />
                     </span>
-            <IconButton onClick={onClickHandler}>
+            <IconButton onClick={onClickHandler} disabled={task.entityStatus === "loading"}>
                 <Delete/>
             </IconButton>
         </div>
     );
 });
+
+
+// types
+export type TasksType = {
+    changeTaskStatus: (todoListId: string, id: string, status: TaskStatuses) => void
+    removeTask: (id: string, todoListId: string) => void
+    changeTaskTitle: (taskId: string, title: string, todoListId: string) => void
+    task: TaskDomainType
+    todoListId: string
+};

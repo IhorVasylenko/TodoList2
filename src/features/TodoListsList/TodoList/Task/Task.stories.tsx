@@ -22,24 +22,11 @@ const baseArgs = {
     removeTask: removeTaskCallback,
 }
 
-/*export const TaskIsDoneExample = Template.bind({});
-TaskIsDoneExample.args = {
-    ...baseArgs,
-    task: {id: '1', status: TaskStatuses.Completed, title: 'JS', description: '', completed: false,
-        priority: TaskPriorities.Middle, startDate: '', deadline: '', todoListId: "todoListId1", order: 0, addedDate: '',},
-};
-
-export const TaskIsNotDoneExample = Template.bind({});
-TaskIsNotDoneExample.args = {
-    ...baseArgs,
-    task: {id: '2', status: TaskStatuses.New, title: 'CSS', description: '', completed: false,
-        priority: TaskPriorities.Middle, startDate: '', deadline: '', todoListId: "todoListId2", order: 0, addedDate: '',},
-};*/
-
 export const TaskIsDoneExample = Template.bind({});
 TaskIsDoneExample.args = {
     ...baseArgs,
-    task: {id: '1',
+    task: {
+        id: '1',
         status: TaskStatuses.Completed,
         title: 'JS',
         description: '',
@@ -48,7 +35,9 @@ TaskIsDoneExample.args = {
         deadline: '',
         todoListId: "todoListId1",
         order: 0,
-        addedDate: '',},
+        addedDate: '',
+        entityStatus: "idle",
+    },
     todoListId: "todoListId1",
 };
 
@@ -66,6 +55,7 @@ TaskIsNotDoneExample.args = {
         todoListId: "todoListId2",
         order: 0,
         addedDate: '',
+        entityStatus: "idle",
     },
     todoListId: "todoListId2",
 };

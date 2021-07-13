@@ -15,15 +15,26 @@ import {TaskStatuses} from "../../api/todoListsAPI";
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {TodoList} from "./TodoList/TodoList";
+import {Dispatch} from "redux";
 
 
 export const TodoListsList: React.FC<TodoListsListPropsType> = (props) => {
+
+    const {
+        disabled,
+        demo = false,
+    } = props;
+
     const todoLists = useSelector<AppRootStateType, Array<TodoListDomainType>>(state => state.todoLists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
-    const dispatch = useDispatch();
+    const dispatch: Dispatch<any> = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchTodoLists())
+        if (demo) {
+            return;
+        }
+        dispatch(fetchTodoLists());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const deleteTodoList = useCallback((todoListId: string) => {
@@ -55,7 +66,7 @@ export const TodoListsList: React.FC<TodoListsListPropsType> = (props) => {
     return (
         <>
             <Grid container style={{padding: "20px 10px"}}>
-                <AddItemForm addItem={addTodoList}/>
+                <AddItemForm addItem={addTodoList} disabled={disabled}/>
             </Grid>
             <Grid container spacing={10}>
                 {
@@ -66,14 +77,13 @@ export const TodoListsList: React.FC<TodoListsListPropsType> = (props) => {
                             <Grid item key={tl.id}>
                                 <Paper style={{padding: "20px", borderRadius: "10px"}}>
                                     <TodoList
-                                        todoListId={tl.id}
-                                        title={tl.title}
+                                        todoList={tl}
+                                        demo={demo}
                                         tasks={tasksForTodoList}
                                         removeTask={deleteTask}
                                         changeFilter={changeFilter}
                                         addTask={addTask}
                                         changeTaskStatus={changeTaskStatus}
-                                        filter={tl.filter}
                                         removeTodoList={deleteTodoList}
                                         changeTaskTitle={changeTaskTitle}
                                         changeTodoListTitle={changeTodoListTitle}
@@ -86,8 +96,11 @@ export const TodoListsList: React.FC<TodoListsListPropsType> = (props) => {
             </Grid>
         </>
     )
-}
+};
 
 
 // types
-type TodoListsListPropsType = {}
+type TodoListsListPropsType = {
+    disabled: boolean
+    demo?: boolean
+};

@@ -39,12 +39,6 @@ export const todoListAPI = {
 
 
 // types
-export type TodoListType = {
-    id: string
-    addedDate: string
-    order: number
-    title: string
-};
 
 export enum TaskStatuses {
     New,
@@ -60,6 +54,13 @@ export enum TaskPriorities {
     Urgently,
     Later,
 }
+
+export type TodoListType = {
+    id: string
+    addedDate: string
+    order: number
+    title: string
+};
 
 export type TaskType = {
     description: string
@@ -83,7 +84,7 @@ export type UpdateTaskModelType = {
     deadline: string
 };
 
-type ResponseType<D = {}> = {
+export type ResponseType<D = {}> = {
     data: D
     resultCode: number
     messages: string[]
