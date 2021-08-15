@@ -18,7 +18,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ((props) =
             addItem(title);
             setTitle('');
         } else {
-            setError('Title is required')
+            setError("Title is required")
         }
     };
 
@@ -38,7 +38,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ((props) =
     return (
         <div>
             <TextField
-                color={error ? 'secondary' : 'primary'}
+                color={error ? "secondary" : "primary"}
                 style={{padding: 0}}
                 autoFocus
                 label={error ? "Required to fill" : "Add task ..."}
@@ -50,7 +50,7 @@ export const AddItemForm: React.FC<AddItemFormPropsType> = React.memo ((props) =
                 onKeyPress={onKeyPressHandler}
                 disabled={disabled}
             />
-            <IconButton size={"medium"} color={error ? 'secondary' : 'primary'} onClick={addItemFn} disabled={disabled}>
+            <IconButton size={"medium"} color={error ? "secondary" : "primary"} onClick={addItemFn} disabled={disabled}>
                 <AddBox />
             </IconButton>
         </div>

@@ -1,4 +1,4 @@
-import {actionsForTasks, tasksReducer, TasksStateType} from './tasksReducer';
+import {actionsForTasks, tasksReducer, TasksStateType} from "./tasksReducer";
 import {actionsForTodoLists, TodoListDomainType} from "./todoListsReducer";
 import {TaskPriorities, TaskStatuses} from "../../api/todoListsAPI";
 
@@ -33,7 +33,7 @@ beforeEach (() => {
     };
 });
 
-test('correct task should be deleted from correct array', () => {
+test("correct task should be deleted from correct array", () => {
     const action = actionsForTasks.removeTask("2", "todolistId2");
     const endState = tasksReducer(startState, action);
 
@@ -60,7 +60,7 @@ test('correct task should be deleted from correct array', () => {
     });
 });
 
-test('correct task should be added to correct array', () => {
+test("correct task should be added to correct array", () => {
     const action = actionsForTasks.createTask({
         id: "4", title: "juice", status: TaskStatuses.New , description: '',
         priority: TaskPriorities.Middle, startDate: '', deadline: '', todoListId: "todolistId2",
@@ -75,7 +75,7 @@ test('correct task should be added to correct array', () => {
     expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
 });
 
-test('status of specified task should be changed', () => {
+test("status of specified task should be changed", () => {
     const action = actionsForTasks.updateTask("2", {status: TaskStatuses.New}, "todolistId2");
     const endState = tasksReducer(startState, action);
 
@@ -83,7 +83,7 @@ test('status of specified task should be changed', () => {
     expect(endState["todolistId1"][1].status).toBe(TaskStatuses.Completed);
 });
 
-test('title of specified task should be changed', () => {
+test("title of specified task should be changed", () => {
     const action = actionsForTasks.updateTask("2", {title: "juice"}, "todolistId2");
     const endState = tasksReducer(startState, action);
 
@@ -91,7 +91,7 @@ test('title of specified task should be changed', () => {
     expect(endState["todolistId1"][1].title).toBe("JS");
 });
 
-test('new array should be added when new todolist is added', () => {
+test("new array should be added when new todolist is added", () => {
     let newTodoList: TodoListDomainType = {
         title: "New title",
         id: "1",
@@ -111,7 +111,7 @@ test('new array should be added when new todolist is added', () => {
     expect(endState[newKey]).toEqual([]);
 });
 
-test('property with todolistId should be deleted', () => {
+test("property with todolistId should be deleted", () => {
     const action = actionsForTodoLists.removeTodoList("todolistId2");
     const endState = tasksReducer(startState, action);
 
@@ -121,10 +121,10 @@ test('property with todolistId should be deleted', () => {
     expect(endState["todolistId2"]).toBeUndefined();
 });
 
-test('empty arrays should be added when we set todoLists', () => {
+test("empty arrays should be added when we set todoLists", () => {
     const action = actionsForTodoLists.setTodoLists([
-        {id: '1', title: 'What to learn', order: 0, addedDate: '',},
-        {id: '2', title: 'What to buy', order: 0, addedDate: '',},
+        {id: "1", title: "What to learn", order: 0, addedDate: '',},
+        {id: "2", title: "What to buy", order: 0, addedDate: '',},
     ]);
     const endState = tasksReducer({}, action);
 
@@ -135,7 +135,7 @@ test('empty arrays should be added when we set todoLists', () => {
     expect(endState["2"]).toStrictEqual([]);
 });
 
-test('tasks should be added for todoList', () => {
+test("tasks should be added for todoList", () => {
     const action = actionsForTasks.setTasks("todolistId1", startState["todolistId1"]);
     const endState = tasksReducer({
         "todolistId2": [],

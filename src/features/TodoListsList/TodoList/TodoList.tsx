@@ -61,10 +61,10 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
 
 
     let tasksForTodoList = tasks;
-    if (filter === 'active') {
+    if (filter === "active") {
         tasksForTodoList = tasks.filter(t => t.status === TaskStatuses.New)
     }
-    if (filter === 'completed') {
+    if (filter === "completed") {
         tasksForTodoList = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
 
@@ -98,26 +98,26 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
             </div>
             <div>
                 <Button
-                    color={filter === 'all' ? 'default' : 'default'}
+                    color={filter === "all" ? "default" : "default"}
                     style={{margin: "3px"}}
                     size={"small"}
-                    variant={filter === 'all' ? 'contained' : 'outlined'}
+                    variant={filter === "all" ? "contained" : "outlined"}
                     onClick={onAllClickHandler}>All</Button>
                 <Button
-                    color={filter === 'active' ? 'primary' : 'default'}
+                    color={filter === "active" ? "primary" : "default"}
                     style={{margin: "3px"}}
                     size={"small"}
-                    variant={filter === 'active' ? 'contained' : 'outlined'}
+                    variant={filter === "active" ? "contained" : "outlined"}
                     onClick={onActiveClickHandler}>Active</Button>
                 <Button
-                    color={filter === 'completed' ? 'primary' : 'default'}
+                    color={filter === "completed" ? "primary" : "default"}
                     style={{margin: "3px"}}
                     size={"small"}
-                    variant={filter === 'completed' ? 'contained' : 'outlined'}
+                    variant={filter === "completed" ? "contained" : "outlined"}
                     onClick={onCompletedClickHandler}>Completed</Button>
             </div>
         </div>
-    )
+    );
 });
 
 
@@ -133,6 +133,6 @@ export type TodoListPropsType = {
     changeTaskTitle: (id: string, title: string, todoListId: string) => void
     changeTodoListTitle: (todoListId: string, title: string) => void
     demo?: boolean
-}
+};
 
 

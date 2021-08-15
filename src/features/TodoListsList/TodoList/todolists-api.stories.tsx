@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {todoListAPI} from "../../../api/todoListsAPI";
 
 
@@ -19,14 +19,14 @@ export const GetTodoLists = () => {
 };
 
 export const CreateTodolist = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
     const [todoListTitle, setTodoListTitle] = useState<string>('');
     const createTodoListTitleHandler = () => {
         todoListAPI.createTodolist(todoListTitle.toUpperCase())
             .then((res) => {
                 setState(res.data);
-                setTodoListTitle("")
-            })
+                setTodoListTitle("");
+            });
     };
 
     return (
@@ -42,11 +42,11 @@ export const CreateTodolist = () => {
                </button>
            </div>
         </div>
-    )
+    );
 };
 
 export const DeleteTodolist = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
     const [todoListId, setTodoListId] = useState<string>('');
     const deleteTodoListHandler = () => {
         todoListAPI.removeTodolist(todoListId)
@@ -69,11 +69,11 @@ export const DeleteTodolist = () => {
                 </button>
             </div>
         </div>
-    )
+    );
 };
 
 export const UpdateTodolistTitle = () => {
-    const [state, setState] = useState<any>(null)
+    const [state, setState] = useState<any>(null);
     const [todoListId, setTodoListId] = useState<string>('');
     const [todoListTitle, setTodoListTitle] = useState<string>('');
     const updateTodoListTitleHandler = () => {
@@ -100,7 +100,7 @@ export const UpdateTodolistTitle = () => {
                 </button>
             </div>
         </div>
-    )
+    );
 };
 
 
@@ -112,7 +112,7 @@ export const GetTasks = () => {
         todoListAPI.getTasks(todoListId)
             .then((res) => {
                 setState(res.data);
-                setTodoListId("")
+                setTodoListId("");
             })
     };
 
@@ -129,7 +129,7 @@ export const GetTasks = () => {
                 </button>
             </div>
         </div>
-    )
+    );
 };
 
 export const CreateTask = () => {
@@ -141,7 +141,7 @@ export const CreateTask = () => {
         todoListAPI.createTask(todoListId, taskTitle.toUpperCase())
             .then((res) => {
                 setState(res.data);
-                setTasTitle("")
+                setTasTitle("");
             })
     };
 
@@ -162,7 +162,7 @@ export const CreateTask = () => {
                 </button>
             </div>
         </div>
-    )
+    );
 };
 
 export const DeleteTask = () => {
@@ -194,7 +194,7 @@ export const DeleteTask = () => {
                 </button>
             </div>
         </div>
-    )
+    );
 };
 
 export const UpdateTaskTitle = () => {
@@ -214,7 +214,7 @@ export const UpdateTaskTitle = () => {
         })
             .then((res) => {
                 setState(res.data);
-            })
+            });
     };
 
     return (
@@ -238,5 +238,5 @@ export const UpdateTaskTitle = () => {
                 </button>
             </div>
         </div>
-    )
+    );
 };

@@ -3,19 +3,21 @@ import {TodoListActionType, todoListsReducer} from "../features/TodoListsList/to
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunk from "redux-thunk";
 import {AppActionType, appReducer} from "./appReducer";
+import {AuthActionType, authReducer} from "../features/login/auth-reducer";
 
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todoLists: todoListsReducer,
     app: appReducer,
+    auth: authReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export type AppRootStateType = ReturnType<typeof rootReducer>;
 
-export type CommonActionTypeForApp = TodoListActionType | TaskActionType | AppActionType;
+export type CommonActionTypeForApp = TodoListActionType | TaskActionType | AppActionType | AuthActionType;
 
 export type InferActionType<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never;
 
