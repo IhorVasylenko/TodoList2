@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
@@ -6,9 +6,7 @@ import {DeleteForever} from "@material-ui/icons";
 import {Task} from "./Task/Task";
 import {TaskStatuses} from "../../../api/todoListsAPI";
 import {FilterValuesType, TodoListDomainType} from "../todoListsReducer";
-import {useDispatch} from "react-redux";
-import {fetchTask, TaskDomainType} from "../tasksReducer";
-import {Dispatch} from "redux";
+import {TaskDomainType} from "../tasksReducer";
 
 
 export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
@@ -23,7 +21,6 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
         changeTodoListTitle,
         changeTaskStatus,
         changeTaskTitle,
-        demo = false,
     } = props;
 
     const {
@@ -32,16 +29,6 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo ((props) => {
         filter,
         entityStatus,
     } = todoList;
-
-    const dispatch: Dispatch<any> = useDispatch()
-
-    useEffect(() => {
-        if (demo) {
-            return;
-        }
-        dispatch(fetchTask(id));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const addTaskFn = useCallback((title: string) => addTask(title, id),
         [addTask, id]);

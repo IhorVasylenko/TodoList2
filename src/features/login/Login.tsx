@@ -28,16 +28,16 @@ export const Login: React.FC = React.memo(() => {
         validate: (values) => {
             const errors: FormikErrorType = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = "Required";
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
+                errors.email = "Invalid email address";
             }
             if (!values.password) {
-                errors.password = 'Required';
+                errors.password = "Required";
             } else if (values.password.length < 5) {
-                errors.password = 'Invalid password, minimum length 5 characters';
+                errors.password = "Invalid password, minimum length 5 characters";
             } else if (values.password.length > 20) {
-                errors.password = 'Invalid password, maximum length 20 characters';
+                errors.password = "Invalid password, maximum length 20 characters";
             }
             return errors;
         },
@@ -48,7 +48,7 @@ export const Login: React.FC = React.memo(() => {
     });
 
     if (isLoggedIn) {
-        return <Redirect to={'/'} />
+        return <Redirect to={"/"} />
     }
 
 
@@ -59,7 +59,7 @@ export const Login: React.FC = React.memo(() => {
                     <FormControl>
                         <FormLabel>
                             <p>To log in get registered
-                                <a href={"https://social-network.samuraijs.com/"} target={"_blank"}>here</a>
+                                <a href={"https://social-network.samuraijs.com/"} target={"_blank"} rel="noreferrer">here</a>
                             </p>
                             <p>or use common test account credentials:</p>
                             <p>Email: free@samuraijs.com</p>

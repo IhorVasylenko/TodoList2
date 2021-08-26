@@ -2,6 +2,7 @@ import {CommonActionTypeForApp, InferActionType} from "../../app/store";
 import {actionsForApp, ThunkDispatchType, ThunkType} from "../../app/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {authAPI, LoginParamsType} from "../../api/todoListsAPI";
+import {actionsForTodoLists} from "../TodoListsList/todoListsReducer";
 
 
 const initialState = {
@@ -47,6 +48,7 @@ export const logout = (): ThunkType => async (dispatch: ThunkDispatchType) => {
         if (res.data.resultCode === 0) {
             dispatch(actionsForAuth.setIsLoggedIn(false));
             dispatch(actionsForApp.setAppStatus("succeeded"));
+            dispatch(actionsForTodoLists.clearData());
         } else {
             handleServerAppError(res.data, dispatch);
         }

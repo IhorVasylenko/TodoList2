@@ -46,6 +46,8 @@ export const tasksReducer = (state: InitialTasksStateType = initialState, action
                         ? {...t, entityStatus: action.entityStatus}
                         : t)
             };
+        case "TODO/TODOLIST/CLEAR-DATA":
+            return initialState;
         default:
             return state;
     }
